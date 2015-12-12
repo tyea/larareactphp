@@ -100,6 +100,15 @@ class HttpSession {
 
 	protected function handleRequest(\React\Http\Request $request, \React\Http\Response $response)
 	{
+		$file_path = public_path() . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
+
+		if($request->getPath()!='/' && file_exists( $file_path )){
+			header("X-Sendfile: $file_path");
+			header("Content-type: application/octet-stream");
+			header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+			return;
+		}
+		
 		$kernel = \App::make('Illuminate\Contracts\Http\Kernel');
 		$laravel_request = \Request::create(
 			$this->getRequestUri($request->getHeaders(), $request->getPath()),
