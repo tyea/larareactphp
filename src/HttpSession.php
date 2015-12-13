@@ -103,9 +103,8 @@ class HttpSession {
 		$file_path = public_path() . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
 
 		if($request->getPath()!='/' && file_exists( $file_path )){
-			header("X-Sendfile: $file_path");
-			header("Content-type: application/octet-stream");
-			header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+			$response->writeHead(200);
+			$response->end(file_get_contents($file_path));
 			return;
 		}
 		
@@ -120,7 +119,7 @@ class HttpSession {
 			$this->request_body
 		);
 		$laravel_response = $kernel->handle($laravel_request);
-		$headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()));
+		$headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()), array("Access-Control-Allow-Origin" => "*"));
 		$response->writeHead($laravel_response->getStatusCode(), $headers);
 		$response->end($laravel_response->getContent());
 
