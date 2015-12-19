@@ -57,9 +57,9 @@ class HttpSession {
 				if ($cookie_data) {
 					$cookies = $cookie_data->cookies;
 				}
-			} else if (class_exists("\Guzzle\Parser\Cookie\CookieParser")) {
+			} else if (class_exists("\\Guzzle\\Parser\\Cookie\\CookieParser")) {
 				$cookies = array_get(with(new \Guzzle\Parser\Cookie\CookieParser())->parseCookie($headers['Cookie']), 'cookies', []);
-			} else if (class_exists("\GuzzleHttp\Cookie\SetCookie")) {
+			} else if (class_exists("\\GuzzleHttp\\Cookie\\SetCookie")) {
 				foreach(\GuzzleHttp\Cookie\SetCookie::fromString($headers['Cookie'])->toArray() as $data) {
 					$cookies[$data['Name']] = $data['Value'];
 				}
@@ -102,11 +102,17 @@ class HttpSession {
 	{
 		$file_path = public_path() . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
 
+
 		if($request->getPath()!='/' && file_exists( $file_path )){
+			header("X-Sendfile: " . basename($file_path));
+			header("Content-type: application/octet-stream");
+			header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
 			$response->writeHead(200);
 			$response->end(file_get_contents($file_path));
+			
 			return;
 		}
+
 		
 		$kernel = \App::make('Illuminate\Contracts\Http\Kernel');
 		$laravel_request = \Request::create(
@@ -115,11 +121,18 @@ class HttpSession {
 			array_merge($request->getQuery(), $this->post_params),
 			$this->getCookies($request->getHeaders()),
 			[],
-			[],
+			$request->getHeaders(),
 			$this->request_body
 		);
+		foreach($request->getHeaders() as $key => $value) {
+			$laravel_request->headers->set($key, $value);
+		}
 		$laravel_response = $kernel->handle($laravel_request);
-		$headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()), array("Access-Control-Allow-Origin" => "*"));
+		$headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()), array(
+			"Access-Control-Allow-Origin" => "*",
+			'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
+			'Access-Control-Allow-Methods' => 'Access-Control-Allow-Methods'
+		));
 		$response->writeHead($laravel_response->getStatusCode(), $headers);
 		$response->end($laravel_response->getContent());
 
