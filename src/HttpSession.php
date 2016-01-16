@@ -115,17 +115,19 @@ class HttpSession {
 	protected function handleRequest(\React\Http\Request $request, \React\Http\Response $response)
 	{
 		$this->info($request->getMethod() . ' ' . $request->getPath());
-		foreach($request->getQuery() as $key=>$value){
+		foreach(array_merge($request->getQuery(), $this->post_params) as $key=>$value){
+			if(!is_string($value)){
+				$value = json_encode($value);
+			}
 			$this->log($key . ' => '. $value);
 		}
-		
-
+	
 		$file_path = public_path() . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
 
 
 		if($request->getPath()!='/' && file_exists( $file_path )){
 			header("X-Sendfile: " . basename($file_path));
-			header("Content-type: application/octet-stream");
+			header("Content-type: " . mime_content_type($file_path));
 			header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
 			$response->writeHead(200);
 			$response->end(file_get_contents($file_path));
@@ -168,8 +170,18 @@ class HttpSession {
 		$this->post_params = [];
 
 		$request->on('data', function($body) use($request, $response) {
+
+			$isJson = function($string) {
+				$result = json_decode($string);
+				return (json_last_error() == JSON_ERROR_NONE) && !empty($result);
+			};
+			
 			$this->request_body = $body;
-			parse_str($body, $this->post_params);
+			if($isJson($body)){
+				$this->post_params = json_decode($body, true);
+			}else {
+				parse_str($body, $this->post_params);
+			}
 			$this->handleRequest($request, $response);
 
 		});
