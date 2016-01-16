@@ -1,4 +1,6 @@
 <?php namespace LaravelReactPHP;
+use Illuminate\Session\SessionManager;
+use App;
 
 class HttpSession {
 
@@ -51,6 +53,7 @@ class HttpSession {
 	protected function getCookies(array $headers)
 	{
 		$cookies = [];
+
 		if (isset($headers['Cookie'])) {
 			if (function_exists('http_parse_cookie')) {
 				$cookie_data = http_parse_cookie($headers['Cookie']);
@@ -60,12 +63,14 @@ class HttpSession {
 			} else if (class_exists("\\Guzzle\\Parser\\Cookie\\CookieParser")) {
 				$cookies = array_get(with(new \Guzzle\Parser\Cookie\CookieParser())->parseCookie($headers['Cookie']), 'cookies', []);
 			} else if (class_exists("\\GuzzleHttp\\Cookie\\SetCookie")) {
-				foreach(\GuzzleHttp\Cookie\SetCookie::fromString($headers['Cookie'])->toArray() as $data) {
-					$cookies[$data['Name']] = $data['Value'];
+				$cookies_tmp = explode('; ', $headers['Cookie']);
+				foreach($cookies_tmp as $cookie){
+					$data = \GuzzleHttp\Cookie\SetCookie::fromString($cookie)->toArray();
+					$cookies[$data['Name']] = rawurldecode($data['Value']);
 				}
+
 			}
 		}
-
 		return $cookies;
 	}
 
@@ -100,6 +105,7 @@ class HttpSession {
 
 	protected function handleRequest(\React\Http\Request $request, \React\Http\Response $response)
 	{
+
 		$file_path = public_path() . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
 
 
@@ -109,12 +115,12 @@ class HttpSession {
 			header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
 			$response->writeHead(200);
 			$response->end(file_get_contents($file_path));
-			
+
 			return;
 		}
 
-		
 		$kernel = \App::make('Illuminate\Contracts\Http\Kernel');
+
 		$laravel_request = \Request::create(
 			$this->getRequestUri($request->getHeaders(), $request->getPath()),
 			$request->getMethod(),
@@ -127,11 +133,14 @@ class HttpSession {
 		foreach($request->getHeaders() as $key => $value) {
 			$laravel_request->headers->set($key, $value);
 		}
+
 		$laravel_response = $kernel->handle($laravel_request);
+
 		$headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()), array(
-			"Access-Control-Allow-Origin" => "*",
+			"Access-Control-Allow-Origin" => "http://localhost:8080",
 			'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
-			'Access-Control-Allow-Methods' => 'Access-Control-Allow-Methods'
+			'Access-Control-Allow-Methods' => 'Access-Control-Allow-Methods',
+			'Access-Control-Allow-Credentials' => 'true'
 		));
 		$response->writeHead($laravel_response->getStatusCode(), $headers);
 		$response->end($laravel_response->getContent());
@@ -141,12 +150,14 @@ class HttpSession {
 
 	public function handle(\React\Http\Request $request, \React\Http\Response $response)
 	{
+
 		$this->post_params = [];
+
 		$request->on('data', function($body) use($request, $response) {
 			$this->request_body = $body;
 			parse_str($body, $this->post_params);
-
 			$this->handleRequest($request, $response);
+
 		});
 	}
 }
