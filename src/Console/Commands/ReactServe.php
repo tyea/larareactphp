@@ -33,7 +33,9 @@ class ReactServe extends Command {
 
 		$this->info("Laravel ReactPHP server started on http://{$host}:{$port}");
 
-		with(new \LaravelReactPHP\Server($host, $port))->run();
+		$verbose = $this->option('verbose');
+
+		with(new \LaravelReactPHP\Server($host, $port, $verbose))->run();
 	}
 
 	/**
