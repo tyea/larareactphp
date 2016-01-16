@@ -55,20 +55,10 @@ class HttpSession {
 		$cookies = [];
 
 		if (isset($headers['Cookie'])) {
-			if (function_exists('http_parse_cookie')) {
-				$cookie_data = http_parse_cookie($headers['Cookie']);
-				if ($cookie_data) {
-					$cookies = $cookie_data->cookies;
-				}
-			} else if (class_exists("\\Guzzle\\Parser\\Cookie\\CookieParser")) {
-				$cookies = array_get(with(new \Guzzle\Parser\Cookie\CookieParser())->parseCookie($headers['Cookie']), 'cookies', []);
-			} else if (class_exists("\\GuzzleHttp\\Cookie\\SetCookie")) {
-				$cookies_tmp = explode('; ', $headers['Cookie']);
-				foreach($cookies_tmp as $cookie){
-					$data = \GuzzleHttp\Cookie\SetCookie::fromString($cookie)->toArray();
-					$cookies[$data['Name']] = rawurldecode($data['Value']);
-				}
-
+			$cookies_tmp = explode('; ', $headers['Cookie']);
+			foreach($cookies_tmp as $cookie){
+				$data = \GuzzleHttp\Cookie\SetCookie::fromString($cookie)->toArray();
+				$cookies[$data['Name']] = rawurldecode($data['Value']);
 			}
 		}
 		return $cookies;
@@ -137,7 +127,7 @@ class HttpSession {
 		$laravel_response = $kernel->handle($laravel_request);
 
 		$headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()), array(
-			"Access-Control-Allow-Origin" => "http://localhost:8080",
+			#"Access-Control-Allow-Origin" => "http://localhost:8080",
 			'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
 			'Access-Control-Allow-Methods' => 'Access-Control-Allow-Methods',
 			'Access-Control-Allow-Credentials' => 'true'
