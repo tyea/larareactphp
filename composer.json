@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.4.0",
         "laravel/framework": "5.1.*",
-        "react/react": "0.4.*"
+        "react/react": "0.4.*",
+        "guzzlehttp/guzzle": "~6.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
