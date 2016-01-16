@@ -1,6 +1,7 @@
 <?php namespace LaravelReactPHP;
 use Illuminate\Session\SessionManager;
 use App;
+use \Symfony\Component\Console\Output\ConsoleOutput;
 
 class HttpSession {
 
@@ -14,6 +15,9 @@ class HttpSession {
 	 */
 	protected $port;
 
+	protected $output;
+	protected $verbose;
+	
 	/**
 	 * @var string
 	 */
@@ -30,10 +34,25 @@ class HttpSession {
 	 * @param string $host binding host
 	 * @param int $port binding port
 	 */
-	public function __construct($host, $port)
+	public function __construct($host, $port, $verbose)
 	{
 		$this->host = $host;
 		$this->port = $port;
+
+		$this->output = new ConsoleOutput();
+		$this->verbose = $verbose;
+	}
+	
+	protected function info($message){
+		if($this->verbose) {
+			$this->output->writeln("<info>$message</info>");
+		}
+	}
+
+	protected function log($message){
+		if($this->verbose) {
+			$this->output->writeln('    ' . $message);
+		}
 	}
 
 	protected function getRequestUri(array $headers, $path)
@@ -95,6 +114,11 @@ class HttpSession {
 
 	protected function handleRequest(\React\Http\Request $request, \React\Http\Response $response)
 	{
+		$this->info($request->getMethod() . ' ' . $request->getPath());
+		foreach($request->getQuery() as $key=>$value){
+			$this->log($key . ' => '. $value);
+		}
+		
 
 		$file_path = public_path() . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
 
