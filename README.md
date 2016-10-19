@@ -1,13 +1,13 @@
 # laravel-reactphp
 
-ReactPHP Server on Laravel 5.0
+ReactPHP Server on Laravel 5.3
 
 ## install
 
 - install via composer
 
 ```sh
-composer require nazo/laravel-reactphp
+composer require Saoneth/laravel-reactphp
 ```
 
 - After installing, add provider on config/app.php on your project.
