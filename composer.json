@@ -1,9 +1,9 @@
 {
-    "name": "Saoneth/laravel-reactphp",
+    "name": "saoneth/laravel-reactphp",
     "type": "library",
     "description": "ReactPHP Server On Laravel 5.3",
     "keywords": ["ReactPHP", "Laravel", "server"],
-    "homepage": "http://github.com/Saoneth/laravel-reactphp",
+    "homepage": "http://github.com/saoneth/laravel-reactphp",
     "license": "MIT",
     "authors": [
         {
