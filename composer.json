@@ -1,11 +1,16 @@
 {
-    "name": "saoneth/laravel-reactphp",
+    "name": "shakahl/laravel-reactphp",
     "type": "library",
-    "description": "ReactPHP Server On Laravel 5.3",
-    "keywords": ["ReactPHP", "Laravel", "server"],
-    "homepage": "http://github.com/saoneth/laravel-reactphp",
+    "description": "ReactPHP Server for Laravel 5.3 and Lumen 5.3",
+    "keywords": ["ReactPHP", "Laravel", "Lumen", "server"],
+    "homepage": "http://github.com/shakahl/laravel-reactphp",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Soma Szélpál",
+            "email": "szelpalsoma@gmail.com",
+            "homepage": "https://github.com/shakahl"
+        },
         {
             "name": "Takuya Sato",
             "email": "takuya0219@gmail.com",

@@ -1,13 +1,14 @@
-# laravel-reactphp
+shakahl/laravel-reactphp
+=========================
 
-ReactPHP Server on Laravel 5.3
+Integration of [ReactPHP](https://github.com/reactphp/react) Server for [Laravel 5.3](http://laravel.com) and [Lumen 5.3](http://lumen.laravel.com).
 
-## install
+## Installation
 
-- install via composer
+- Install via composer
 
 ```sh
-composer require Saoneth/laravel-reactphp
+composer require shakahl/laravel-reactphp
 ```
 
 - After installing, add provider on config/app.php on your project.
@@ -22,9 +23,12 @@ composer require Saoneth/laravel-reactphp
     ],
 ```
 
-## run server
+## Run the server
 
 ```sh
-php artisan react-serve
+php artisan react-serve --host=localhost --port=8080
 ```
 
+## Credits
+
+This library is forked from [Saoneth/laravel-reactphp](https://github.com/Saoneth/laravel-reactphp).
