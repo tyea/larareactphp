@@ -8,7 +8,9 @@ use LaravelReactPHP\Console\Commands\ReactServe;
 class ReactCommandProvider extends ServiceProvider
 {
 
-    protected $commands = ['ReactServe' => 'command.react-serve'];
+    protected $commands = [
+        'ReactServe' => 'command.react-serve',
+    ];
 
     public function boot()
     {
