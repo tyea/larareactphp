@@ -3,6 +3,8 @@
 namespace LaravelReactPHP;
 
 use App;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use \Symfony\Component\Console\Output\ConsoleOutput;
 
 class HttpSession
@@ -126,7 +128,7 @@ class HttpSession
       $this->log($key . ' => ' . $value);
     }
 
-    $file_path = public_path() . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
+    $file_path = base_path('public') . (strpos($request->getPath(), "By") ? substr($request->getPath(), 0, strpos($request->getPath(), "?")) : $request->getPath());
 
     if ($request->getPath() != '/' && file_exists($file_path)) {
       header("X-Sendfile: " . basename($file_path));
@@ -134,13 +136,12 @@ class HttpSession
       header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
       $response->writeHead(200);
       $response->end(file_get_contents($file_path));
-
       return;
     }
 
-    $kernel = app('Illuminate\Contracts\Http\Kernel');
+    $kernel = app();
 
-    $laravel_request = \Request::create(
+    $laravelRequest = Request::create(
       $this->getRequestUri($request->getHeaders(), $request->getPath()),
       $request->getMethod(),
       array_merge($request->getQuery(), $this->post_params),
@@ -149,22 +150,29 @@ class HttpSession
       $request->getHeaders(),
       $this->request_body
     );
+
     foreach ($request->getHeaders() as $key => $value) {
-      $laravel_request->headers->set($key, $value);
+      $laravelRequest->headers->set($key, $value);
     }
 
-    $laravel_response = $kernel->handle($laravel_request);
+    $laravelResponse = app()->handle($laravelRequest);
 
-    $headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()), array(
-      #"Access-Control-Allow-Origin" => "http://localhost:8080",
-      'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
-      'Access-Control-Allow-Methods' => 'Access-Control-Allow-Methods',
-      'Access-Control-Allow-Credentials' => 'true',
-    ));
-    $response->writeHead($laravel_response->getStatusCode(), $headers);
-    $response->end($laravel_response->getContent());
+    $headers = array_merge(
+      $laravelResponse->headers->allPreserveCase(),
+      $this->buildCookies($laravelResponse->headers->getCookies()),
+      [
+        #"Access-Control-Allow-Origin" => "http://localhost:8080",
+        'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
+        'Access-Control-Allow-Methods' => 'Access-Control-Allow-Methods',
+        'Access-Control-Allow-Credentials' => 'true',
+      ]
+    );
+    $response->writeHead($laravelResponse->getStatusCode(), $headers);
+    $response->end($laravelResponse->getContent());
 
-    $kernel->terminate($laravel_request, $laravel_response);
+    if (method_exists($kernel, 'terminate')) {
+      $kernel->terminate($laravelRequest, $laravelResponse);
+    }
   }
 
   public function handle(\React\Http\Request $request, \React\Http\Response $response)
