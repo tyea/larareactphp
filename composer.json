@@ -19,12 +19,22 @@
     ],
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "illuminate/bus": "5.4.*|5.4.3",
+        "illuminate/cookie": "5.4.*|5.4.3",
+        "illuminate/config": "5.4.*|5.4.3",
+        "illuminate/console": "5.4.*|5.4.3",
+        "illuminate/container": "5.4.*|5.4.3",
+        "illuminate/contracts": "5.4.*|5.4.3",
+        "illuminate/http": "5.4.*|5.4.3",
+        "illuminate/log": "5.4.*|5.4.3",
+        "illuminate/pipeline": "5.4.*|5.4.3",
+        "illuminate/queue": "5.4.*|5.4.3",
+        "illuminate/support": "5.4.*|5.4.3",
         "react/react": "0.4.*",
-        "guzzlehttp/guzzle": "~6.1"
+        "guzzlehttp/guzzle": "~6.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "psr-4": {

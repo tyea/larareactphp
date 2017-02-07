@@ -3,52 +3,40 @@
 namespace LaravelReactPHP\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 
 class ReactServe extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'react-serve';
+  /**
+   * The name and signature of the console command.
+   *
+   * @var string
+   */
+  protected $signature = 'react-serve
+                            {--H|host=localhost : The host address to serve the application on.}
+                            {--P|port=8080 : The port to serve the application on.}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = "Serve the application on the ReactPHP server";
+  /**
+   * The console command description.
+   *
+   * @var string
+   */
+  protected $description = "Serve the application on the ReactPHP server";
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function fire()
-    {
-        $host = $this->input->getOption('host');
+  /**
+   * Execute the console command.
+   *
+   * @return mixed
+   */
+  public function fire()
+  {
+    $host = $this->input->getOption('host');
 
-        $port = $this->input->getOption('port');
+    $port = $this->input->getOption('port');
 
-        $this->info("Laravel ReactPHP server started on http://{$host}:{$port}");
+    $this->info("Laravel ReactPHP server started on http://{$host}:{$port}");
 
-        $verbose = $this->option('verbose');
+    $verbose = $this->option('verbose');
 
-        with(new \LaravelReactPHP\Server($host, $port, $verbose))->run();
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on.', 'localhost'],
-            ['port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on.', 8000],
-        ];
-    }
+    with(new \LaravelReactPHP\Server($host, $port, $verbose))->run();
+  }
 }
