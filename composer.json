@@ -1,7 +1,7 @@
 {
     "name": "shakahl/laravel-reactphp",
     "type": "library",
-    "description": "ReactPHP Server for Laravel 5.3 and Lumen 5.3",
+    "description": "ReactPHP Server for Laravel framework and Lumen framework",
     "keywords": ["ReactPHP", "Laravel", "Lumen", "server"],
     "homepage": "http://github.com/shakahl/laravel-reactphp",
     "license": "MIT",
