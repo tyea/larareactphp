@@ -6,37 +6,40 @@ use Illuminate\Console\Command;
 
 class ReactServe extends Command
 {
-  /**
-   * The name and signature of the console command.
-   *
-   * @var string
-   */
-  protected $signature = 'react-serve
-                            {--H|host=localhost : The host address to serve the application on.}
-                            {--P|port=8080 : The port to serve the application on.}';
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'react-serve
+                            {--l|listen=tcp://127.0.0.1:8080 : Listen address.}';
 
-  /**
-   * The console command description.
-   *
-   * @var string
-   */
-  protected $description = "Serve the application on the ReactPHP server";
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = "Serve the application on the ReactPHP server";
 
-  /**
-   * Execute the console command.
-   *
-   * @return mixed
-   */
-  public function fire()
-  {
-    $host = $this->input->getOption('host');
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        $listen = $this->input->getOption('listen');
 
-    $port = $this->input->getOption('port');
+        $this->info("Laravel ReactPHP server started on {$listen}");
 
-    $this->info("Laravel ReactPHP server started on http://{$host}:{$port}");
+        $verbose = $this->option('verbose');
 
-    $verbose = $this->option('verbose');
+        $app = $this->getLaravel();
 
-    with(new \LaravelReactPHP\Server($host, $port, $verbose))->run();
-  }
+        $reactServer = new \LaravelReactPHP\LaravelReactServer($listen, $verbose);
+
+        $app->instance('react.server', $reactServer);
+
+        $reactServer->run();
+    }
 }

@@ -5,23 +5,37 @@ namespace LaravelReactPHP\Providers;
 use Illuminate\Support\ServiceProvider;
 use LaravelReactPHP\Console\Commands\ReactServe;
 
+/**
+ * Class ReactCommandProvider
+ *
+ * @package LaravelReactPHP\Providers
+ */
 class ReactCommandProvider extends ServiceProvider
 {
 
-  protected $commands = [
-    'ReactServe' => 'command.react-serve',
-  ];
+    /**
+     * @var array
+     */
+    protected $commands = [
+        'ReactServe' => 'command.react-serve',
+    ];
 
-  public function boot()
-  {
+    /**
+     *
+     */
+    public function boot()
+    {
 
-  }
+    }
 
-  public function register()
-  {
-    $this->app->singleton('command.react-serve', function () {
-      return new ReactServe();
-    });
-    $this->commands('command.react-serve');
-  }
+    /**
+     *
+     */
+    public function register()
+    {
+        $this->app->singleton('command.react-serve', function () {
+            return new ReactServe();
+        });
+        $this->commands('command.react-serve');
+    }
 }

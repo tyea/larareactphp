@@ -10,28 +10,16 @@
             "name": "Soma Szélpál",
             "email": "szelpalsoma@gmail.com",
             "homepage": "https://github.com/shakahl"
-        },
-        {
-            "name": "Takuya Sato",
-            "email": "takuya0219@gmail.com",
-            "homepage": "https://github.com/nazo"
         }
     ],
     "require": {
         "php": ">=5.6.4",
-        "illuminate/bus": "5.4.*|5.4.3",
-        "illuminate/cookie": "5.4.*|5.4.3",
-        "illuminate/config": "5.4.*|5.4.3",
-        "illuminate/console": "5.4.*|5.4.3",
-        "illuminate/container": "5.4.*|5.4.3",
-        "illuminate/contracts": "5.4.*|5.4.3",
-        "illuminate/http": "5.4.*|5.4.3",
-        "illuminate/log": "5.4.*|5.4.3",
-        "illuminate/pipeline": "5.4.*|5.4.3",
-        "illuminate/queue": "5.4.*|5.4.3",
-        "illuminate/support": "5.4.*|5.4.3",
-        "react/react": "0.4.*",
-        "guzzlehttp/guzzle": "~6.2"
+        "symfony/http-foundation": "~3.2",
+        "symfony/http-kernel": "~3.2",
+        "symfony/psr-http-message-bridge": "^1.0",
+        "zendframework/zend-diactoros": "^1.4",
+        "guzzlehttp/guzzle": "^6.2",
+        "react/http": "^0.7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.7"
