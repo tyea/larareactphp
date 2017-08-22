@@ -1,5 +1,5 @@
 {
-    "name": "shakahl/laravel-reactphp",
+    "name": "mnvx/laravel-reactphp",
     "type": "library",
     "description": "ReactPHP Server for Laravel framework and Lumen framework",
     "keywords": ["ReactPHP", "Laravel", "Lumen", "server"],
