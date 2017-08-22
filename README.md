@@ -1,7 +1,9 @@
-shakahl/laravel-reactphp
+mnvx/laravel-reactphp
 =========================
 
 Integration of [ReactPHP](https://github.com/reactphp/http) Server for [Laravel 5.4](http://laravel.com) and [Lumen 5.4](http://lumen.laravel.com).
+
+This fork works with requests contained JSON body.
 
 Now using [reactphp/http](https://github.com/reactphp/http) 0.7.0!
 
@@ -10,7 +12,7 @@ Now using [reactphp/http](https://github.com/reactphp/http) 0.7.0!
 Install via composer
 
 ```sh
-composer require shakahl/laravel-reactphp
+composer require mnvx/laravel-reactphp:dev-master
 ```
 
 After installing, add provider on config/app.php on your project.
