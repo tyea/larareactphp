@@ -22,11 +22,19 @@ class ReactServe extends Command
     protected $description = "Serve the application on the ReactPHP server";
 
     /**
+     * @deprecated since laravel 5.5
+     */
+    public function fire()
+    {
+        $this->handle();
+    }
+
+    /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $listen = $this->input->getOption('listen');
 
