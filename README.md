@@ -1,45 +1,31 @@
-mnvx/laravel-reactphp
-=========================
+# LaraReactPHP
 
-Integration of [ReactPHP](https://github.com/reactphp/http) Server for [Laravel 5.4](http://laravel.com) and [Lumen 5.4](http://lumen.laravel.com).
+## About
 
-This fork works with requests contained JSON body.
+LaraReactPHP is a Laravel package for using ReactPHP to serve your application.
 
-Now using [reactphp/http](https://github.com/reactphp/http) 0.7.0!
+## Requirements
+
+* PHP >= 7.0
+* Laravel >= 5.5
 
 ## Installation
 
-Install via composer
-
-```sh
-composer require mnvx/laravel-reactphp:dev-master
+```
+composer require tyea/larareactphp
 ```
 
-After installing, add provider on config/app.php on your project.
+## Usage
 
-```php
-// app.php
+## History
 
-'providers' => [
-    // ...
-  
-    'LaravelReactPHP\Providers\ReactCommandProvider',
-],
-```
+This repo is forked from:
 
-## Run the server
+* [mnvx/laravel-reactphp](https://github.com/mnvx/laravel-reactphp)
+* [Saoneth/laravel-reactphp](https://github.com/Saoneth/laravel-reactphp)
+* [rayout/laravel-reactphp](https://github.com/rayout/laravel-reactphp)
+* [nazo/laravel-reactphp](https://github.com/nazo/laravel-reactphp)
 
-```sh
-php artisan react-serve --listen=tcp://127.0.0.1:8080
-```
+## Author
 
-## Credits
-
-This library based on [Saoneth/laravel-reactphp](https://github.com/Saoneth/laravel-reactphp).
-
-- [reactphp/http](https://github.com/reactphp/http)
-- [Saoneth/laravel-reactphp](https://github.com/Saoneth/laravel-reactphp)
-- [zendframework/zend-diactoros](https://github.com/zendframework/zend-diactoros)
-- [symfony/psr-http-message-bridge](https://github.com/symfony/psr-http-message-bridge)
-- [laravel/lumen-framework](https://github.com/laravel/lumen-framework)
-- [laravel/framework](https://github.com/laravel/framework)
+Written by Tom Yeadon in March 2020.
