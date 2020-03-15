@@ -16,17 +16,11 @@
 		}
 	],
     "require": {
-        "php": ">=5.6.4",
-        "symfony/http-foundation": "~3.2",
-        "symfony/http-kernel": "~3.2",
-        "symfony/psr-http-message-bridge": "^1.0",
-        "zendframework/zend-diactoros": "^1.4",
-        "guzzlehttp/guzzle": "^6.2",
-        "react/http": "^0.7.0"
+        "react/http": "^0.8.5"
     },
     "autoload": {
         "psr-4": {
-            "LaravelReactPHP\\": "src/"
+            "LaraReactPhp\\": "src/"
         }
     }
 }
