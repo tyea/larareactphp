@@ -12,8 +12,7 @@ class ServeReactPhpCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'react-serve
-                            {--l|listen=tcp://127.0.0.1:8080 : Listen address.}';
+    protected $signature = 'serve:reactphp {--l|listen=tcp://127.0.0.1:8080 : Listen address.}';
 
     /**
      * The console command description.
