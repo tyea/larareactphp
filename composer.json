@@ -20,7 +20,14 @@
     },
     "autoload": {
         "psr-4": {
-            "LaraReactPhp\\": "src/"
+            "Tyea\\LaraReactPhp\\": "src/"
         }
-    }
+    },
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Tyea\\LaraReactPhp\\Providers\\LaraReactPhpServiceProvider"
+			]
+		}
+	}
 }

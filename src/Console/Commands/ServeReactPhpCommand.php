@@ -3,6 +3,7 @@
 namespace Tyea\LaraReactPhp\Console\Commands;
 
 use Illuminate\Console\Command;
+use Tyea\LaraReactPhp\ReactPhpServer;
 
 class ServeReactPhpCommand extends Command
 {
@@ -44,7 +45,7 @@ class ServeReactPhpCommand extends Command
 
         $app = $this->getLaravel();
 
-        $reactServer = new \LaravelReactPHP\LaravelReactServer($listen, $verbose);
+        $reactServer = new ReactPhpServer($listen, $verbose);
 
         $app->instance('react.server', $reactServer);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelReactPHP;
+namespace Tyea\LaraReactPhp;
 
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
@@ -8,7 +8,7 @@ use React\Promise\Promise;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 
-class LaravelReactServer
+class ReactPhpServer
 {
     /**
      * @var \React\EventLoop\LoopInterface|null
