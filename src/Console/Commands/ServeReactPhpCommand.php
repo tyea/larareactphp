@@ -3,51 +3,31 @@
 namespace Tyea\LaraReactPhp\Console\Commands;
 
 use Illuminate\Console\Command;
-use Tyea\LaraReactPhp\ReactPhpServer;
+use Illuminate\Support\Facades\Validator;
+use Exception;
+use Illuminate\Support\Str;
+use Tyea\LaraReactPhp\ReactPhpHttpServer;
 
 class ServeReactPhpCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'serve:reactphp {--l|listen=tcp://127.0.0.1:8080 : Listen address.}';
+    protected $signature = "serve:reactphp {host=127.0.0.1} {port=8000}";
+    protected $description = "Serve the application using ReactPHP";
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = "Serve the application on the ReactPHP server";
-
-    /**
-     * @deprecated since laravel 5.5
-     */
-    public function fire()
+    public function handle(): Int
     {
-        $this->handle();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
-    {
-        $listen = $this->input->getOption('listen');
-
-        $this->info("Laravel ReactPHP server started on {$listen}");
-
-        $verbose = $this->option('verbose');
-
-        $app = $this->getLaravel();
-
-        $reactServer = new ReactPhpServer($listen, $verbose);
-
-        $app->instance('react.server', $reactServer);
-
-        $reactServer->run();
+    	$host = $this->argument("host");
+    	$port = $this->argument("port");
+		$validator = Validator::make(
+			["host" => $host, "port" => $port],
+			["host" => "required|string|ipv4", "port" => "required|integer|between:1,65535"]
+		);
+		// @todo error formatting
+    	$validator->validate();
+    	$uri = $host . ":" . $port;
+        $this->line("<info>Laravel ReactPHP server started:</info> http://" . $uri);
+		// @todo hot reloading
+        $server = new ReactPhpHttpServer($uri);
+        $server->run();
+        return 0;
     }
 }
