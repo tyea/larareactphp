@@ -1,22 +1,20 @@
 <?php
 
-namespace Tyea\LaraReactPhp;
+namespace Tyea\LaraReactPhp\Factories;
 
 use React\Http\Io\ServerRequest as ReactPhpRequest;
-use React\Http\Response as ReactPhpResponse;
 use Illuminate\Http\Request as LaravelRequest;
-use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Support\Facades\Config;
 
-class RequestResponseConverter
+class RequestFactory
 {
 	private function __construct()
 	{
 	}
 	
-	public static function convertRequest(ReactPhpRequest $reactPhpRequest): LaravelRequest
+	public static function makeFromRequest(ReactPhpRequest $reactPhpRequest): LaravelRequest
 	{
-		$laravelRequest = new LaravelRequest(
+		return new LaravelRequest(
 			$reactPhpRequest->getQueryParams(),
 			$reactPhpRequest->getParsedBody() ?? [],
 			$reactPhpRequest->getAttributes(),
@@ -35,22 +33,11 @@ class RequestResponseConverter
 						? ($reactPhpRequest->getUri()->getPath() . "?" . $reactPhpRequest->getUri()->getQuery())
 						: $reactPhpRequest->getUri()->getPath(),
 					"SCRIPT_NAME" => "/index.php",
-					"SCRIPT_FILENAME" => Config::get("filesystems.disks.public.root") . "/index.php",
+					"SCRIPT_FILENAME" => Config::get("filesystems.disks.reactphp.root") . "/index.php",
 					"PHP_SELF" => "/index.php" . $reactPhpRequest->getUri()->getPath()
 				]
 			),
 			$reactPhpRequest->getBody()
 		);
-		return $laravelRequest;
-	}
-	
-	public static function convertResponse(LaravelResponse $laravelResponse): ReactPhpResponse
-	{
-		$reactPhpResponse = new ReactPhpResponse(
-			$laravelResponse->getStatusCode(),
-			$laravelResponse->headers->all(),
-			$laravelResponse->getContent()
-		);
-		return $reactPhpResponse;
 	}
 }

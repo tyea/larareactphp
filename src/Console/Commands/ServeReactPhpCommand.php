@@ -4,8 +4,8 @@ namespace Tyea\LaraReactPhp\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 use Tyea\LaraReactPhp\ReactPhpHttpServer;
 
 class ServeReactPhpCommand extends Command
@@ -23,11 +23,14 @@ class ServeReactPhpCommand extends Command
 		);
 		// @todo error formatting
     	$validator->validate();
+		Config::set("filesystems.disks.reactphp", [
+            "driver" => "local",
+            "root" => realpath(Config::get("filesystems.disks.local.root") . "/../../public"),
+        ]);
+		// @todo hot reloading
     	$uri = $host . ":" . $port;
         $this->line("<info>Laravel ReactPHP server started:</info> http://" . $uri);
-		// @todo hot reloading
-        $server = new ReactPhpHttpServer($uri);
-        $server->run();
+        (new ReactPhpHttpServer($uri))->run();
         return 0;
     }
 }
