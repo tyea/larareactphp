@@ -16,31 +16,41 @@ class RequestResponseConverter
 	
 	public static function convertRequest(ReactPhpRequest $reactPhpRequest): LaravelRequest
 	{
-		$path = $reactPhpRequest->getUri()->getPath();
-		$query = $reactPhpRequest->getUri()->getQuery();
-		$server = array_merge(
-			$reactPhpRequest->getServerParams() ?? [],
-			[
-				"SERVER_PROTOCOL" => "HTTP/" . $reactPhpRequest->getProtocolVersion(),
-				"SERVER_NAME" => $reactPhpRequest->getUri()->getHost(),
-				"REQUEST_METHOD" => $reactPhpRequest->getMethod(),
-				"REQUEST_URI" => strlen($query) > 0 ? ($path . "?" . $query) : $path,
-				"QUERY_STRING" => $query,
-				"PATH_INFO" => $path,
-				"SCRIPT_NAME" => "/index.php",
-				"SCRIPT_FILENAME" => Config::get("filesystems.disks.public.root") . "/index.php",
-				"PHP_SELF" => "/index.php" . $path
-			]
-		);
 		$laravelRequest = new LaravelRequest(
-			$reactPhpRequest->getQueryParams(), // $_GET
-			$reactPhpRequest->getParsedBody() ?? [], // $_POST
-			$reactPhpRequest->getAttributes(), // []
-			$reactPhpRequest->getCookieParams(), // $_COOKIE
-			$reactPhpRequest->getUploadedFiles(), // $_FILES
-			$server, // $_SERVER
-			$reactPhpRequest->getBody() // STDIN
+			$reactPhpRequest->getQueryParams(),
+			$reactPhpRequest->getParsedBody() ?? [],
+			$reactPhpRequest->getAttributes(),
+			$reactPhpRequest->getCookieParams(),
+			$reactPhpRequest->getUploadedFiles(),
+			array_merge(
+				$reactPhpRequest->getServerParams() ?? [],
+				[
+					"SERVER_PROTOCOL" => "HTTP/" . $reactPhpRequest->getProtocolVersion(),
+					"SERVER_NAME" => $reactPhpRequest->getUri()->getHost(),
+					"REQUEST_METHOD" => $reactPhpRequest->getMethod(),
+					"PATH_INFO" => $reactPhpRequest->getUri()->getPath(),
+					"QUERY_STRING" => $reactPhpRequest->getUri()->getQuery(),
+					"REQUEST_URI" =>
+						strlen($reactPhpRequest->getUri()->getQuery()) > 0
+						? ($reactPhpRequest->getUri()->getPath() . "?" . $reactPhpRequest->getUri()->getQuery())
+						: $reactPhpRequest->getUri()->getPath(),
+					"SCRIPT_NAME" => "/index.php",
+					"SCRIPT_FILENAME" => Config::get("filesystems.disks.public.root") . "/index.php",
+					"PHP_SELF" => "/index.php" . $reactPhpRequest->getUri()->getPath()
+				]
+			),
+			$reactPhpRequest->getBody()
 		);
 		return $laravelRequest;
+	}
+	
+	public static function convertResponse(LaravelResponse $laravelResponse): ReactPhpResponse
+	{
+		$reactPhpResponse = new ReactPhpResponse(
+			$laravelResponse->getStatusCode(),
+			$laravelResponse->headers->all(),
+			$laravelResponse->getContent()
+		);
+		return $reactPhpResponse;
 	}
 }

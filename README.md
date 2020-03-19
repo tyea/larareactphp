@@ -17,6 +17,18 @@ composer require tyea/larareactphp
 
 ## Usage
 
+```
+php artisan serve:reactphp
+php artisan serve:reactphp 0.0.0.0 80
+```
+
+## Performance
+
+| Command                    | Total Wall Clock Time |
+| -------------------------- | --------------------- |
+| php artisan serve          | 0.2s                  |
+| php artisan serve:reactphp | 0.6s                  |
+
 ## History
 
 This repo is forked from:

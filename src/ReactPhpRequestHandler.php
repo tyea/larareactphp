@@ -15,17 +15,14 @@ class ReactPhpRequestHandler
 	}
 	
 	// @todo use promises
+	// @todo serve static files
+	// @todo investigate terminable middleware
 	public static function handle(ReactPhpRequest $reactPhpRequest): ReactPhpResponse
 	{
 		$kernel = App::make("Illuminate\\Contracts\\Http\\Kernel");
 		$laravelRequest = RequestResponseConverter::convertRequest($reactPhpRequest);
 		$laravelResponse = $kernel->handle($laravelRequest);
-		// @todo convert response
-		// @todo send response
-		// $response->send();
-		// @todo terminate
-		// $kernel->terminate($request, $response);
-		$reactPhpResponse = new ReactPhpResponse(200, ["Content-Type" => "text/plain"], var_export($laravelResponse, true));
+		$reactPhpResponse = RequestResponseConverter::convertResponse($laravelResponse);
 		return $reactPhpResponse;
 	}
 }
