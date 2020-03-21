@@ -26,7 +26,7 @@ php artisan serve:reactphp
 | Command                    | Total Wall Clock Time |
 | -------------------------- | --------------------- |
 | php artisan serve          | 0.2s                  |
-| php artisan serve:reactphp | 0.6s                  |
+| php artisan serve:reactphp | 0.5s                  |
 
 ## Notes
 

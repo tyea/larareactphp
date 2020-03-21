@@ -11,27 +11,28 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tyea\LaraReactPhp\Factories\RequestFactory;
 use Tyea\LaraReactPhp\Factories\ResponseFactory;
-use Exception;
+use React\Promise\Promise;
 
 class HttpServerHandler
 {
 	private function __construct()
 	{
 	}
-	
-	// @todo use promises
-	public static function handle(ReactPhpRequest $reactPhpRequest): ReactPhpResponse
+
+	public static function handle(ReactPhpRequest $reactPhpRequest): Promise
 	{
-		$pathExists = Storage::disk("reactphp")->exists($reactPhpRequest->getUri()->getPath());
-		$isEntryPoint = Str::startsWith($reactPhpRequest->getUri()->getPath(), "/index.php");
-		if ($pathExists && !$isEntryPoint) {
-			$reactPhpResponse = ResponseFactory::makeFromPath($reactPhpRequest);
-		} else {
-			$kernel = App::make("Illuminate\\Contracts\\Http\\Kernel");
-			$laravelRequest = RequestFactory::makeFromRequest($reactPhpRequest);
-			$laravelResponse = $kernel->handle($laravelRequest);
-			$reactPhpResponse = ResponseFactory::makeFromResponse($laravelResponse);
-		}
-		return $reactPhpResponse;
+		return new Promise(function ($resolve, $reject) use ($reactPhpRequest) {
+			$pathExists = Storage::disk("reactphp")->exists($reactPhpRequest->getUri()->getPath());
+			$isEntryPoint = Str::startsWith($reactPhpRequest->getUri()->getPath(), "/index.php");
+			if ($pathExists && !$isEntryPoint) {
+				$reactPhpResponse = ResponseFactory::makeFromPath($reactPhpRequest);
+			} else {
+				$kernel = App::make("Illuminate\\Contracts\\Http\\Kernel");
+				$laravelRequest = RequestFactory::makeFromRequest($reactPhpRequest);
+				$laravelResponse = $kernel->handle($laravelRequest);
+				$reactPhpResponse = ResponseFactory::makeFromResponse($laravelResponse);
+			}
+			$resolve($reactPhpResponse);
+		});
 	}
 }
