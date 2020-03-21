@@ -9,21 +9,16 @@ use Exception;
 
 class ReactPhpHttpServer
 {
-	private $eventLoop = null;
-	private $httpServer = null;
-	private $socket = null;
-
-	public function __construct(String $uri)
+	private function __construct()
 	{
-		$this->eventLoop = EventLoopFactory::create();
-		$this->httpServer = new HttpServer(["Tyea\\LaraReactPhp\\Handler", "handle"]);
-		$this->socket = new Socket($uri, $this->eventLoop);
 	}
-	
-	public function run(): Void
+
+	public static function run(String $uri)
 	{
-		$this->httpServer->listen($this->socket);
-		$this->httpServer->on("error", ["Tyea\\LaraReactPhp\\Handler", "recover"]);
-		$this->eventLoop->run();
+		$eventLoop = EventLoopFactory::create();
+		$httpServer = new HttpServer(["Tyea\\LaraReactPhp\\HttpServerHandler", "handle"]);
+		$socket = new Socket($uri, $eventLoop);
+		$httpServer->listen($socket);
+		$eventLoop->run();
 	}
 }

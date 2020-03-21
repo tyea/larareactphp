@@ -4,8 +4,6 @@
 
 LaraReactPHP is a Laravel package for using ReactPHP to serve your application.
 
-It's designed for use in a containerised environment, but works well with Supervisor too.
-
 ## Requirements
 
 * PHP >= 7.0
@@ -29,6 +27,10 @@ php artisan serve:reactphp
 | -------------------------- | --------------------- |
 | php artisan serve          | 0.2s                  |
 | php artisan serve:reactphp | 0.6s                  |
+
+## Notes
+
+* Terminable middleware is not supported
 
 ## History
 

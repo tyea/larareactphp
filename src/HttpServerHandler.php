@@ -13,16 +13,15 @@ use Tyea\LaraReactPhp\Factories\RequestFactory;
 use Tyea\LaraReactPhp\Factories\ResponseFactory;
 use Exception;
 
-class Handler
+class HttpServerHandler
 {
 	private function __construct()
 	{
 	}
 	
+	// @todo use promises
 	public static function handle(ReactPhpRequest $reactPhpRequest): ReactPhpResponse
 	{
-		// @todo use promises
-		// @todo investigate terminable middleware
 		$pathExists = Storage::disk("reactphp")->exists($reactPhpRequest->getUri()->getPath());
 		$isEntryPoint = Str::startsWith($reactPhpRequest->getUri()->getPath(), "/index.php");
 		if ($pathExists && !$isEntryPoint) {
@@ -34,11 +33,5 @@ class Handler
 			$reactPhpResponse = ResponseFactory::makeFromResponse($laravelResponse);
 		}
 		return $reactPhpResponse;
-	}
-	
-	public static function recover(Exception $exception): Void
-	{
-		// @todo error formatting
-		echo $exception . "\n";
 	}
 }
