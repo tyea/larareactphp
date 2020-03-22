@@ -16,8 +16,7 @@
 		}
 	],
     "require": {
-        "react/http": "^0.8.5",
-        "ralouphie/mimey": "^2.1"
+        "react/http": "^0.8.5"
     },
     "autoload": {
         "psr-4": {

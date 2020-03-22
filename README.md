@@ -21,13 +21,6 @@ composer require tyea/larareactphp
 php artisan serve:reactphp
 ```
 
-## Performance
-
-| Command                    | Total Wall Clock Time |
-| -------------------------- | --------------------- |
-| php artisan serve          | 0.2s                  |
-| php artisan serve:reactphp | 0.5s                  |
-
 ## Notes
 
 * Terminable middleware is not supported

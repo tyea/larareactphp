@@ -15,7 +15,7 @@ class ResponseFactory
 	{
 	}
 	
-	public static function makeFromPath(ReactPhpRequest $reactPhpRequest): ReactPhpResponse
+	public static function makeFromFile(ReactPhpRequest $reactPhpRequest): ReactPhpResponse
 	{
 		return new ReactPhpResponse(
 			200,

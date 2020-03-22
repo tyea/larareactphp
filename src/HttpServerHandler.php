@@ -25,7 +25,7 @@ class HttpServerHandler
 			$pathExists = Storage::disk("reactphp")->exists($reactPhpRequest->getUri()->getPath());
 			$isEntryPoint = Str::startsWith($reactPhpRequest->getUri()->getPath(), "/index.php");
 			if ($pathExists && !$isEntryPoint) {
-				$reactPhpResponse = ResponseFactory::makeFromPath($reactPhpRequest);
+				$reactPhpResponse = ResponseFactory::makeFromFile($reactPhpRequest);
 			} else {
 				$kernel = App::make("Illuminate\\Contracts\\Http\\Kernel");
 				$laravelRequest = RequestFactory::makeFromRequest($reactPhpRequest);

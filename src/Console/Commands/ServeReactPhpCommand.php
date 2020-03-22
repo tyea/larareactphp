@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 use Tyea\LaraReactPhp\ReactPhpHttpServer;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 class ServeReactPhpCommand extends Command
 {
@@ -24,7 +23,8 @@ class ServeReactPhpCommand extends Command
 		);
 		if ($validator->fails()) {
 			$argument = array_key_exists("host", $validator->errors()->messages()) ? "host" : "port";
-			throw new InvalidArgumentException("The \"" . $argument . "\" argument is not valid.");
+			$this->line("<error>The \"" . $argument . "\" argument is invalid</error>");
+			return 1;
 		}
 		Config::set("filesystems.disks.reactphp", [
             "driver" => "local",
