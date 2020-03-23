@@ -21,6 +21,22 @@ composer require tyea/larareactphp
 php artisan serve:reactphp
 ```
 
+You can optionally pass IP address and port arguments too.
+
+```
+php artisan serve:reactphp 0.0.0.0 80
+```
+
+## Development
+
+LaraReactPHP ships with a Bash script for automatically rerunning the `php artisan serve:reactphp` command upon changes to your application.
+
+```
+bash vendor/bin/larareactphp:watch
+```
+
+You must have `inotify-tools` installed in order to use it.
+
 ## Notes
 
 * Terminable middleware is not supported
