@@ -31,6 +31,6 @@
 		}
 	},
 	"bin": [
-		"bin/larareactphp:watch"
+		"bin/larareactphp"
 	]
 }
