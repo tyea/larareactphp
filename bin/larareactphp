@@ -2,6 +2,8 @@
 
 PWD=$(pwd)
 PID="0"
+HOST="${1}"
+PORT="${2}"
 
 function teardown()
 {
@@ -12,7 +14,7 @@ function teardown()
 trap teardown SIGINT
 
 while true; do
-	php artisan serve:reactphp &
+	php artisan serve:reactphp ${HOST} ${PORT} &
 	PID=${!}
 	inotifywait -q \
 		-e create -e modify -e move -e delete \
