@@ -28,9 +28,9 @@ class RequestFactory
 			strlen($reactPhpRequest->getUri()->getQuery()) > 0 ?
 			($reactPhpRequest->getUri()->getPath() . "?" . $reactPhpRequest->getUri()->getQuery()) :
 			$reactPhpRequest->getUri()->getPath();
-		$server["SCRIPT_NAME" = "/index.php";
-		$server["SCRIPT_FILENAME" = public_path() . "/index.php";
-		$server["PHP_SELF" = "/index.php" . $reactPhpRequest->getUri()->getPath();
+		$server["SCRIPT_NAME"] = "/index.php";
+		$server["SCRIPT_FILENAME"] = public_path() . "/index.php";
+		$server["PHP_SELF"] = "/index.php" . $reactPhpRequest->getUri()->getPath();
 		foreach ($reactPhpRequest->getHeaders() as $header => $values) {
 			$key = "HTTP_" . strtoupper(str_replace("-", "_", $header));
 			$server[$key] = implode(", ", $values);
