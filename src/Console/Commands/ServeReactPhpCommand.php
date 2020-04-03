@@ -28,7 +28,7 @@ class ServeReactPhpCommand extends Command
 		}
 		Config::set("filesystems.disks.reactphp", [
             "driver" => "local",
-            "root" => realpath(Config::get("filesystems.disks.local.root") . "/../../public"),
+            "root" => public_path(),
         ]);
     	$uri = $host . ":" . $port;
         $this->line("<info>Laravel ReactPHP server started:</info> http://" . $uri);

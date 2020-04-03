@@ -37,6 +37,7 @@ class ResponseFactory
 		switch (get_class($laravelResponse)) {
 			case "Illuminate\\Http\\Response":
 			case "Illuminate\\Http\\RedirectResponse":
+			case "Illuminate\\Http\\JsonResponse":
 				return new ReactPhpResponse(
 					$laravelResponse->getStatusCode(),
 					$laravelResponse->headers->all(),
