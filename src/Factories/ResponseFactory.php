@@ -18,15 +18,16 @@ class ResponseFactory
 	
 	public static function makeFromFile(ReactPhpRequest $reactPhpRequest): ReactPhpResponse
 	{
+		$lastModified = DateTime::createFromFormat(
+			"U",
+			Storage::disk("reactphp")->lastModified($reactPhpRequest->getUri()->getPath()),
+			new DateTimeZone("UTC")
+		);
 		return new ReactPhpResponse(
 			200,
 			[
 				"Content-Type" => Storage::disk("reactphp")->mimeType($reactPhpRequest->getUri()->getPath()),
-				"Last-Modified" => DateTime::createFromFormat(
-					"U",
-					Storage::disk("reactphp")->lastModified($reactPhpRequest->getUri()->getPath()),
-					new DateTimeZone("UTC")
-				)->format(DateTime::RFC7231)
+				"Last-Modified" => $lastModified->format(DateTime::RFC7231)
 			],
 			Storage::disk("reactphp")->get($reactPhpRequest->getUri()->getPath())
 		);
