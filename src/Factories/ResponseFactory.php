@@ -8,6 +8,7 @@ use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
 use DateTimeZone;
+use Exception;
 
 class ResponseFactory
 {
@@ -31,12 +32,18 @@ class ResponseFactory
 		);
 	}
 	
-	public static function makeFromResponse(LaravelResponse $laravelResponse): ReactPhpResponse
+	public static function makeFromResponse(Object $laravelResponse): ReactPhpResponse
 	{
-		return new ReactPhpResponse(
-			$laravelResponse->getStatusCode(),
-			$laravelResponse->headers->all(),
-			$laravelResponse->getContent()
-		);
+		switch (get_class($laravelResponse)) {
+			case "Illuminate\\Http\\Response":
+			case "Illuminate\\Http\\RedirectResponse":
+				return new ReactPhpResponse(
+					$laravelResponse->getStatusCode(),
+					$laravelResponse->headers->all(),
+					$laravelResponse->getContent()
+				);
+			default:
+				throw new Exception();
+		}
 	}
 }
