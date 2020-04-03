@@ -40,6 +40,8 @@ You must have `inotify-tools` installed in order to use it. It also accepts host
 ## Notes
 
 * Terminable middleware is not supported
+* File downloads are not supported
+* File responses are not supported
 
 ## History
 
