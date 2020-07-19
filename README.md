@@ -37,6 +37,23 @@ bash vendor/bin/larareactphp
 
 You must have `inotify-tools` installed in order to use it.
 
+## State
+
+LaraReactPHP allows you to reset the state between requests.
+
+```
+use Tyea\LaraReactPhp\ResetManager;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
+ResetManager::set(function () {
+	Auth::logout();
+	Session::flush();
+});
+```
+
+You should place this in the `AppServiceProvider` class in the `boot` method.
+
 ## Notes
 
 * Terminable middleware is not supported
