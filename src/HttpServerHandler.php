@@ -24,6 +24,7 @@ class HttpServerHandler
 		return new Promise(function ($resolve, $reject) use ($reactPhpRequest) {
 			$pathExists = Storage::disk("reactphp")->exists($reactPhpRequest->getUri()->getPath());
 			$isEntryPoint = Str::startsWith($reactPhpRequest->getUri()->getPath(), "/index.php");
+			ResetManager::execute();
 			if ($pathExists && !$isEntryPoint) {
 				$reactPhpResponse = ResponseFactory::makeFromFile($reactPhpRequest);
 			} else {

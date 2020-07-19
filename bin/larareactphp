@@ -16,9 +16,19 @@ trap teardown SIGINT
 while true; do
 	php artisan serve:reactphp ${HOST} ${PORT} &
 	PID=${!}
-	inotifywait -q \
-		-e create -e modify -e move -e delete \
-		-r ${PWD}/app -r ${PWD}/config -r ${PWD}/public -r ${PWD}/resources -r ${PWD}/routes \
-		${PWD}/.env ${PWD}/composer.json ${PWD}/composer.lock
+	inotifywait \
+		-q \
+		-e create \
+		-e modify \
+		-e move \
+		-e delete \
+		-r ${PWD}/app \
+		-r ${PWD}/config \
+		-r ${PWD}/public \
+		-r ${PWD}/resources \
+		-r ${PWD}/routes \
+		${PWD}/.env \
+		${PWD}/composer.json \
+		${PWD}/composer.lock
 	kill ${PID}
 done
