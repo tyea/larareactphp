@@ -11,17 +11,17 @@ class ResetManager
 	private function __construct()
 	{
 	}
-	
+
 	public static function get(): ?Closure
 	{
 		return ResetManager::$closure;
 	}
-	
+
 	public static function set(?Closure $closure): Void
 	{
 		ResetManager::$closure = $closure;
 	}
-	
+
 	public static function execute(): Void
 	{
 		call_user_func(ResetManager::$closure);

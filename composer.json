@@ -1,12 +1,12 @@
 {
-    "name": "tyea/larareactphp",
-    "description": "A Laravel package for using ReactPHP to serve your application",
-    "keywords": [
-    	"laravel",
-    	"react",
-    	"reactphp",
-    	"serve"
-    ],
+	"name": "tyea/larareactphp",
+	"description": "A Laravel package for using ReactPHP to serve your application",
+	"keywords": [
+		"laravel",
+		"react",
+		"reactphp",
+		"serve"
+	],
 	"homepage": "https://github.com/tyea/larareactphp",
 	"license": "MIT",
 	"authors": [
@@ -15,14 +15,14 @@
 			"homepage": "http://www.tomyeadon.com"
 		}
 	],
-    "require": {
-        "react/http": "^0.8.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Tyea\\LaraReactPhp\\": "src/"
-        }
-    },
+	"require": {
+		"react/http": "^0.8.5"
+	},
+	"autoload": {
+		"psr-4": {
+			"Tyea\\LaraReactPhp\\": "src/"
+		}
+	},
 	"extra": {
 		"laravel": {
 			"providers": [

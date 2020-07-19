@@ -15,7 +15,7 @@ class ResponseFactory
 	private function __construct()
 	{
 	}
-	
+
 	public static function makeFromFile(ReactPhpRequest $reactPhpRequest): ReactPhpResponse
 	{
 		$lastModified = DateTime::createFromFormat(
@@ -32,7 +32,7 @@ class ResponseFactory
 			Storage::disk("reactphp")->get($reactPhpRequest->getUri()->getPath())
 		);
 	}
-	
+
 	public static function makeFromResponse(Object $laravelResponse): ReactPhpResponse
 	{
 		switch (get_class($laravelResponse)) {

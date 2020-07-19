@@ -10,7 +10,7 @@ class RequestFactory
 	private function __construct()
 	{
 	}
-	
+
 	public static function makeFromRequest(ReactPhpRequest $reactPhpRequest): LaravelRequest
 	{
 		$get = $reactPhpRequest->getQueryParams() ?? [];
