@@ -1,13 +1,13 @@
 <?php
 
-namespace Tyea\LaraReactPhp\Console\Commands;
+namespace Tyea\LaraReactPhp\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
-use Tyea\LaraReactPhp\ReactPhpHttpServer;
-use Tyea\LaraReactPhp\ResetManager;
+use Tyea\LaraReactPhp\Servers\ReactPhpHttpServer;
+use Tyea\LaraReactPhp\Handlers\StateHandler;
 
 class ServeReactPhpCommand extends Command
 {
@@ -31,8 +31,8 @@ class ServeReactPhpCommand extends Command
 			"driver" => "local",
 			"root" => public_path(),
 		]);
-		if (!ResetManager::get()) {
-			ResetManager::set(function () {
+		if (!StateHandler::get()) {
+			StateHandler::set(function () {
 			});
 		}
 		$uri = $host . ":" . $port;

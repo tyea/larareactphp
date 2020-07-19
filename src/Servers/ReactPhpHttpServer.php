@@ -1,6 +1,6 @@
 <?php
 
-namespace Tyea\LaraReactPhp;
+namespace Tyea\LaraReactPhp\Servers;
 
 use React\EventLoop\Factory as EventLoopFactory;
 use React\Http\Server as HttpServer;
@@ -16,7 +16,7 @@ class ReactPhpHttpServer
 	public static function run(String $uri)
 	{
 		$eventLoop = EventLoopFactory::create();
-		$httpServer = new HttpServer(["Tyea\\LaraReactPhp\\HttpServerHandler", "handle"]);
+		$httpServer = new HttpServer(["Tyea\\LaraReactPhp\\Handlers\\HttpServerHandler", "handle"]);
 		$socket = new Socket($uri, $eventLoop);
 		$httpServer->listen($socket);
 		$eventLoop->run();

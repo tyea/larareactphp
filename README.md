@@ -29,24 +29,30 @@ php artisan serve:reactphp 0.0.0.0 80
 
 ## Development
 
-LaraReactPHP ships with a Bash script for automatically rerunning the `php artisan serve:reactphp` command upon changes to your application. It also accepts host and port arguments.
+This package ships with a Bash script for automatically rerunning the `php artisan serve:reactphp` command upon changes to your application.
 
 ```
 bash vendor/bin/larareactphp
+```
+
+You can also optionally pass host and port arguments.
+
+```
+bash vendor/bin/larareactphp 127.0.0.1 8080
 ```
 
 You must have `inotify-tools` installed in order to use it.
 
 ## State
 
-LaraReactPHP allows you to reset the state between requests.
+This package allows you to handle the way state is reset between requests.
 
 ```
-use Tyea\LaraReactPhp\ResetManager;
+use Tyea\LaraReactPhp\Handlers\StateHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-ResetManager::set(function () {
+StateHandler::set(function () {
 	Auth::logout();
 	Session::flush();
 });

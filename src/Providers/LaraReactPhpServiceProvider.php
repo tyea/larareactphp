@@ -9,7 +9,7 @@ class LaraReactPhpServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		$this->commands([
-			"Tyea\\LaraReactPhp\\Console\\Commands\\ServeReactPhpCommand"
+			"Tyea\\LaraReactPhp\\Commands\\ServeReactPhpCommand"
 		]);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tyea\LaraReactPhp;
+namespace Tyea\LaraReactPhp\Handlers;
 
 use React\Http\Io\ServerRequest as ReactPhpRequest;
 use React\Http\Response as ReactPhpResponse;
@@ -24,7 +24,7 @@ class HttpServerHandler
 		return new Promise(function ($resolve, $reject) use ($reactPhpRequest) {
 			$pathExists = Storage::disk("reactphp")->exists($reactPhpRequest->getUri()->getPath());
 			$isEntryPoint = Str::startsWith($reactPhpRequest->getUri()->getPath(), "/index.php");
-			ResetManager::execute();
+			StateHandler::handle();
 			if ($pathExists && !$isEntryPoint) {
 				$reactPhpResponse = ResponseFactory::makeFromFile($reactPhpRequest);
 			} else {
