@@ -29,7 +29,7 @@ php artisan serve:reactphp 0.0.0.0 80
 
 ## Development
 
-This package ships with a Bash script for automatically rerunning the `php artisan serve:reactphp` command upon changes to your application.
+There's a Bash script for automatically rerunning the `php artisan serve:reactphp` command upon changes to your application.
 
 ```
 bash vendor/bin/larareactphp
@@ -45,7 +45,7 @@ You must have `inotify-tools` installed in order to use it.
 
 ## State
 
-This package allows you to handle the way state is reset between requests.
+You can optionally handle the way state is reset between requests. This is essential if you are using authentication of any kind.
 
 ```
 use Tyea\LaraReactPhp\Handlers\StateHandler;
